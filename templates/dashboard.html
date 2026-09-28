@@ -1,0 +1,15 @@
+{% extends "base.html" %}{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1>Welcome, {{ user.full_name }}</h1>
+<div class="grid">{% for label, val in stats.items() %}<div class="stat"><b>{{ val }}</b><span>{{ label }}</span></div>{% endfor %}</div>
+<h2>{{ 'Overdue books' if user.role != 'student' else 'Books you currently have' }}</h2>
+<div class="table-wrap"><table>
+  <tr>{% if user.role != 'student' %}<th>Member</th>{% endif %}<th>Book</th><th>Due</th><th>Fine so far</th></tr>
+  {% for l in loans %}<tr>
+    {% if user.role != 'student' %}<td>{{ l.full_name }}</td>{% endif %}
+    <td>{{ l.title }}</td>
+    <td>{{ l.due_date }} {% if l.overdue %}<span class="badge bad">overdue</span>{% endif %}</td>
+    <td>₹{{ '%.2f'|format(l.live_fine) }}</td></tr>
+  {% else %}<tr><td colspan="4" class="empty">Nothing here 🎉</td></tr>{% endfor %}
+</table></div>
+{% endblock %}

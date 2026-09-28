@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% block title %}Account{% endblock %}
+{% block content %}
+<h1>My account</h1>
+<p class="muted">{{ user.full_name }} · {{ user.username }} · <span class="badge role-{{ user.role }}">{{ user.role }}</span></p>
+<form class="card form" method="post"><input type="hidden" name="csrf" value="{{ csrf }}">
+  <h2 style="margin-top:0">Change password</h2>
+  <label>Current password</label><input name="current" type="password" required>
+  <label>New password</label><input name="new" type="password" required>
+  <label>Confirm new password</label><input name="confirm" type="password" required>
+  <p><button class="btn">Update password</button></p>
+</form>
+{% endblock %}

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}{% endblock %} · LibraryHub</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head><body>
+{% if user %}
+<header class="nav">
+  <a class="brand" href="{{ url_for('dashboard') }}">📚 LibraryHub</a>
+  <nav>
+    <a href="{{ url_for('dashboard') }}">Dashboard</a>
+    <a href="{{ url_for('books') }}">Books</a>
+    {% if user.role in ('admin', 'librarian') %}
+      <a href="{{ url_for('issue') }}">Issue</a>
+      <a href="{{ url_for('loans') }}">Loans</a>
+      <a href="{{ url_for('users') }}">Members</a>
+    {% endif %}
+    {% if user.role == 'student' %}<a href="{{ url_for('my_loans') }}">My loans</a>{% endif %}
+    {% if user.role == 'admin' %}<a href="{{ url_for('settings') }}">Settings</a>{% endif %}
+  </nav>
+  <div class="who">
+    <span class="badge role-{{ user.role }}">{{ user.role }}</span> {{ user.full_name }}
+    <a href="{{ url_for('account') }}">Account</a>
+    <form class="inline" method="post" action="{{ url_for('logout') }}">
+      <input type="hidden" name="csrf" value="{{ csrf }}"><button class="link">Log out</button>
+    </form>
+  </div>
+</header>
+{% endif %}
+<main>
+  {% for cat, msg in get_flashed_messages(with_categories=true) %}<div class="flash {{ cat }}">{{ msg }}</div>{% endfor %}
+  {% block content %}{% endblock %}
+</main>
+</body></html>

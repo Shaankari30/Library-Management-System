@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% block title %}{{ e.code }}{% endblock %}
+{% block content %}
+<div class="card" style="max-width:520px;margin:10vh auto;text-align:center">
+  <h1>{{ e.code }} — {{ e.name }}</h1>
+  <p class="muted">{% if e.code == 403 %}Your role doesn't have permission to do that.{% else %}{{ e.description }}{% endif %}</p>
+  <a class="btn" href="{{ url_for('dashboard') }}">Back to dashboard</a>
+</div>
+{% endblock %}

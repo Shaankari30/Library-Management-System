@@ -1,0 +1,16 @@
+{% extends "base.html" %}{% block title %}Members{% endblock %}
+{% block content %}
+<div class="bar"><h1 class="grow" style="margin:0">{{ 'All users' if user.role == 'admin' else 'Students' }}</h1>
+  <a class="btn ghost" href="{{ url_for('add_user') }}">+ {{ 'Add user' if user.role == 'admin' else 'Register student' }}</a></div>
+<div class="table-wrap"><table>
+  <tr><th>Username</th><th>Name</th><th>Email</th><th>Role</th><th>Status</th>{% if user.role == 'admin' %}<th></th>{% endif %}</tr>
+  {% for u in rows %}<tr>
+    <td>{{ u.username }}</td><td>{{ u.full_name }}</td><td>{{ u.email }}</td>
+    <td><span class="badge role-{{ u.role }}">{{ u.role }}</span></td>
+    <td>{% if u.active %}<span class="badge ok">active</span>{% else %}<span class="badge bad">disabled</span>{% endif %}</td>
+    {% if user.role == 'admin' %}<td>{% if u.id != user.id %}
+      <form class="inline" method="post" action="{{ url_for('toggle_user', uid=u.id) }}"><input type="hidden" name="csrf" value="{{ csrf }}">
+      <button class="btn ghost sm">{{ 'Disable' if u.active else 'Enable' }}</button></form>{% endif %}</td>{% endif %}
+  </tr>{% endfor %}
+</table></div>
+{% endblock %}

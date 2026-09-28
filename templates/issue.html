@@ -1,0 +1,15 @@
+{% extends "base.html" %}{% block title %}Issue book{% endblock %}
+{% block content %}
+<h1>Issue a book</h1>
+<form class="card form" method="post"><input type="hidden" name="csrf" value="{{ csrf }}">
+  <label>Student</label>
+  <select name="user_id" required><option value="">Select student…</option>
+    {% for s_ in students %}<option value="{{ s_.id }}">{{ s_.full_name }} ({{ s_.username }})</option>{% endfor %}</select>
+  <label>Book (only available copies are listed)</label>
+  <select name="book_id" required><option value="">Select book…</option>
+    {% for b in books %}<option value="{{ b.id }}">{{ b.title }} — {{ b.author }} ({{ b.available_copies }} left)</option>{% endfor %}</select>
+  <p class="muted">Loan period: {{ s.loan_days }} days · Limit: {{ s.max_loans }} books per student · Fine: ₹{{ '%g'|format(s.fine_per_day) }}/day late.
+     Students with overdue books or unpaid fines cannot borrow.</p>
+  <p><button class="btn">Issue book</button></p>
+</form>
+{% endblock %}

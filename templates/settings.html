@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% block title %}Settings{% endblock %}
+{% block content %}
+<h1>Library settings</h1>
+<form class="card form" method="post"><input type="hidden" name="csrf" value="{{ csrf }}">
+  <label>Loan period (days)</label><input name="loan_days" type="number" min="1" value="{{ s.loan_days }}">
+  <label>Fine per day late (₹)</label><input name="fine_per_day" type="number" step="0.5" min="0" value="{{ s.fine_per_day }}">
+  <label>Max books per student</label><input name="max_loans" type="number" min="1" value="{{ s.max_loans }}">
+  <p><button class="btn">Save settings</button></p>
+</form>
+{% endblock %}
